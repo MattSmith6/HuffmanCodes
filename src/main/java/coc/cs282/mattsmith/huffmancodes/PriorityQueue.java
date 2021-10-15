@@ -38,7 +38,7 @@ public class PriorityQueue {
         int frequencyToInsert = tree.getFrequency();
         
         PriorityQueueNode current = first;
-        PriorityQueueNode parentOfCurrent = null;
+        PriorityQueueNode previous = null;
         
         boolean hasParent = false;
         
@@ -47,7 +47,7 @@ public class PriorityQueue {
            
             // If frequency is greater, skip this node and adjust for next node
             if (frequencyToInsert > current.getTree().getFrequency()) {
-                parentOfCurrent = current;
+                previous = current;
                 current = current.getNext();
                 
                 hasParent = true;
@@ -57,12 +57,12 @@ public class PriorityQueue {
             
             // We want to insert this node now
             
-            if (!hasParent) { // If no parent, insert at front (first)
+            if (!hasParent) { // If no previous, insert at front (first)
                 nodeToInsert.setNext(first);
                 first = nodeToInsert;
-            } else { // If parent, insert between parent and current
+            } else { // If previous, insert between previous and current
                 nodeToInsert.setNext(current);
-                parentOfCurrent.setNext(nodeToInsert);
+                previous.setNext(nodeToInsert);
             }
             
             // We have inserted, exit out of the method
@@ -71,7 +71,7 @@ public class PriorityQueue {
         }
         
         // If did not already insert, then this value needs to be inserted at end
-        parentOfCurrent.setNext(nodeToInsert);
+        previous.setNext(nodeToInsert);
     }
     
     // Equivalent to removeFirst, since this is a queue
